@@ -4,6 +4,12 @@ const searchInput = document.getElementById("searchInput");
 
 const filterSelect = document.getElementById("filterSelect");
 
+const modal = document.getElementById("modal");
+
+const modalBody = document.getElementById("modalBody");
+
+const closeModal = document.getElementById("closeModal");
+
 let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
 let currentSearch = "";
@@ -47,28 +53,111 @@ const products = [
     name: "Hydra Lily Serum",
     type: "serum",
     skin: "dry",
-    description: "Deep hydration serum"
+    description: "Deep hydration serum",
+
+    ingredients: ["Hyaluronic Acid", "Niacinamide", "Ceramides"],
+
+    benefits: ["Hydration", "Barrier Support", "Glow"],
+
+    usage: "Apply morning and evening after cleansing."
   },
+
   {
     id: 2,
     name: "Pure Foam Cleanser",
     type: "cleanser",
     skin: "oily",
-    description: "Gentle daily cleanser"
+    description: "Gentle daily cleanser",
+
+    ingredients: ["Salicylic Acid", "Green Tea Extract", "Glycerin"],
+
+    benefits: ["Deep Cleansing", "Oil Control", "Pore Care"],
+
+    usage: "Massage onto damp skin and rinse thoroughly."
   },
+
   {
     id: 3,
     name: "Barrier Repair Cream",
     type: "moisturizer",
     skin: "sensitive",
-    description: "Strengthens skin barrier"
+    description: "Strengthens skin barrier",
+
+    ingredients: ["Ceramides", "Panthenol", "Shea Butter"],
+
+    benefits: ["Barrier Repair", "Soothing", "Long-lasting Moisture"],
+
+    usage:"Apply as the final step of your evening routine."
   },
+
   {
     id: 4,
     name: "Glow Vitamin C",
     type: "serum",
     skin: "all",
-    description: "Brightening treatment"
+    description: "Brightening treatment",
+
+    ingredients: ["Vitamin C", "Ferulic Acid", "Vitamin E"],
+
+    benefits: ["Brightening", "Even Skin Tone", "Antioxidant Protection"],
+
+    usage: "Apply in the morning before moisturizer and SPF."
+  },
+
+  {
+    id: 5,
+    name: "Velvet Night Cream",
+    type: "cream",
+    skin: "dry",
+    description: "Rich overnight nourishment",
+
+    ingredients: ["Squalane", "Ceramides", "Peptides"],
+
+    benefits: ["Deep Nourishment", "Soft Skin", "Overnight Recovery"],
+
+    usage: "Apply every night as the final skincare step."
+  },
+
+  {
+    id: 6,
+    name: "Balance Toner",
+    type: "toner",
+    skin: "oily",
+    description: "Refreshing balancing toner",
+
+    ingredients: ["Witch Hazel", "Niacinamide", "Aloe Vera"],
+
+    benefits: ["Oil Balance", "Pore Refining", "Refreshes Skin"],
+
+    usage: "Apply with a cotton pad after cleansing."
+  },
+
+  {
+    id: 7,
+    name: "Calm Essence",
+    type: "essence",
+    skin: "sensitive",
+    description: "Lightweight soothing essence",
+
+    ingredients: ["Centella Asiatica", "Panthenol", "Beta-Glucan"],
+
+    benefits: ["Redness Relief", "Hydration", "Skin Comfort"],
+
+    usage: "Pat gently into the skin after toner."
+  },
+
+  {
+    id: 8,
+    name: "Radiance SPF 50",
+    type: "sunscreen",
+    skin: "all",
+    description: "Daily broad-spectrum sun protection",
+
+    ingredients: ["Zinc Oxide", "Vitamin E", "Niacinamide"],
+
+    benefits: ["UV Protection", "Prevents Premature Aging", "Lightweight Finish"],
+
+    usage: "Apply generously every morning and reapply as needed."
   }
 ];
 
@@ -86,22 +175,66 @@ function renderProducts(items) {
   productsGrid.innerHTML = items.map(product => {
     const isFavorite = favorites.includes(product.id);
     return `
-      <div class="product-card">
-        <button
-          class="favorite-btn"
-          data-id="${product.id}"
-        >
-          ${isFavorite ? "❤️" : "🤍"}
-        </button>
-        <h3>${product.name}</h3>
-        <p>${product.description}</p>
-        <span>${product.type}</span>
-      </div>
-    `;
+    <div
+      class="product-card"
+      data-id="${product.id}"
+    >
+    <button
+      class="favorite-btn"
+      data-id="${product.id}"
+    >
+      ${isFavorite ? "❤️" : "🤍"}
+    </button>
+
+    <h3>${product.name}</h3>
+    <p>${product.description}</p>
+    <span>${product.type}</span>
+  </div>
+`;
   }).join("");
 
   attachFavoriteEvents();
+  attachProductEvents();
 }
+
+function attachProductEvents(){
+  const cards = document.querySelectorAll(".product-card");
+  cards.forEach(card => {card.addEventListener("click", openProductModal);});
+}
+
+function openProductModal(e){
+  const productId = Number(e.currentTarget.dataset.id);
+
+  const product = products.find(item => item.id === productId);
+
+  modalBody.innerHTML = `
+    <h2>${product.name}</h2>
+    <p>${product.description}</p>
+    <h3>Ingredients</h3>
+
+    <ul>
+      ${product.ingredients.map(item => `<li>${item}</li>`).join("")}
+    </ul>
+
+    <h3>Benefits</h3>
+
+    <ul>
+      ${product.benefits.map(item => `<li>${item}</li>`).join("")}
+    </ul>
+
+    <h3>How To Use</h3>
+    <p>${product.usage}</p>
+  `;
+
+  modal.classList.remove("hidden");
+}
+
+closeModal.addEventListener("click",() => { modal.classList.add("hidden");});
+
+modal.addEventListener("click",(e) => {
+    if(e.target === modal){ modal.classList.add("hidden");}
+  }
+);
 
 function attachFavoriteEvents(){
   const favoriteBtns = document.querySelectorAll(".favorite-btn");
@@ -109,6 +242,8 @@ function attachFavoriteEvents(){
 }
 
 function toggleFavorite(e){
+  e.stopPropagation();
+
   const id = Number(e.target.dataset.id);
 
   if(favorites.includes(id)){
