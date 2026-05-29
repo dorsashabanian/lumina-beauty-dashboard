@@ -1,5 +1,7 @@
 const startBtn = document.getElementById("startQuizBtn");
 
+const searchInput = document.getElementById("searchInput");
+
 const quizSteps = [
   {
     question: "What's your skin type?",
@@ -236,3 +238,19 @@ function renderDashboard() {
 }
 
 renderProducts(products);
+
+function handleSearch(e) {
+  const value = e.target.value.toLowerCase();
+
+  const filteredProducts =
+    products.filter(product => {
+
+      return (product.name.toLowerCase().includes(value) ||
+        product.type.toLowerCase().includes(value) ||
+        product.description.toLowerCase().includes(value));
+    });
+
+  renderProducts(filteredProducts);
+}
+
+searchInput.addEventListener("input", handleSearch);
