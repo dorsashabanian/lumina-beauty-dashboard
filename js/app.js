@@ -31,6 +31,8 @@ const quizContainer = document.getElementById("quizContainer");
 
 const progressBar = document.querySelector(".progress-bar");
 
+
+
 function renderQuizStep() {
   const step = quizSteps[currentStep];
   quizContainer.innerHTML = `

@@ -136,6 +136,43 @@ nav a{
   text-align:center;
 }
 
+.quiz-actions{
+  display:flex;
+  justify-content:center;
+  gap:16px;
+  margin-top:24px;
+}
+
+.quiz-actions button{
+  border:none;
+  cursor:pointer;
+  padding:12px 24px;
+  border-radius:999px;
+  font-size:1rem;
+  transition:.3s;
+}
+
+#prevBtn{
+  background:transparent;
+  color:var(--text);
+  border:1px solid rgba(255,255,255,.15);
+}
+
+#nextBtn{
+  background:var(--primary);
+  color:white;
+}
+
+.quiz-actions button:hover{
+  transform:translateY(-2px);
+}
+
+.finish-btn{
+  background:var(--secondary) !important;
+  color:#111;
+  font-weight:600;
+}
+
 .options{
   display:grid;
   gap:16px;
@@ -149,6 +186,12 @@ nav a{
   color:var(--text);
   cursor:pointer;
   border-radius:12px;
+  transition:.3s;
+}
+
+.option-btn:hover{
+  transform:translateY(-2px);
+  border-color:var(--secondary);
 }
 
 .option-btn.active{
