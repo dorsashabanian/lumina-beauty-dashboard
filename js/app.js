@@ -10,6 +10,8 @@ const modalBody = document.getElementById("modalBody");
 
 const closeModal = document.getElementById("closeModal");
 
+const toast = document.getElementById("toast");
+
 let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
 let currentSearch = "";
@@ -248,14 +250,15 @@ function toggleFavorite(e){
 
   if(favorites.includes(id)){
     favorites = favorites.filter(favId => favId !== id);
+    showToast("Removed from Favorites");
   }
-  else favorites.push(id);
-
+  else{
+    favorites.push(id);
+    showToast("Added to Favorites ❤️");
+  }
   localStorage.setItem("favorites", JSON.stringify(favorites));
-
   updateProducts();
 }
-
 const productsGrid = document.getElementById("productsGrid");
 
 
@@ -448,6 +451,12 @@ function updateProducts() {
     );
   }
   renderProducts(filtered);
+}
+
+function showToast(message){
+  toast.textContent = message;
+  toast.classList.add("show");
+  setTimeout(() => {toast.classList.remove("show");}, 2500);
 }
 
 searchInput.addEventListener("input", handleSearch);
