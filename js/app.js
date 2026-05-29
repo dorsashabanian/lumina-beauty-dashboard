@@ -120,10 +120,34 @@ function previousStep(){
   renderQuizStep();
 }
 
+function generateAnalysis() {
+
+  let score = 75;
+  const morningRoutine = ["Gentle Cleanser", "Moisturizer", "SPF 50"];
+  const nightRoutine = ["Cleanser", "Night Cream"];
+
+  if (answers.skinType === "Dry" && answers.concern === "Hydration"){
+    score = 82;
+    morningRoutine.splice(1, 0, "Hyaluronic Acid Serum");
+    nightRoutine.push("Barrier Repair Cream");
+  }
+
+  if (answers.concern === "Anti-Aging"){
+    score += 5;
+    nightRoutine.push("Retinol Serum");
+  }
+
+  return {score, morningRoutine, nightRoutine};
+}
+
 function finishQuiz(){
   console.log(answers);
   document.querySelector(".quiz").classList.add("hidden");
   document.querySelector(".dashboard").classList.remove("hidden");
+
+  renderDashboard();
+
+  document.querySelector(".dashboard").scrollIntoView({behavior:"smooth"});
 }
 
 startBtn.addEventListener("click", () => {
@@ -132,4 +156,37 @@ startBtn.addEventListener("click", () => {
   document.querySelector(".quiz").scrollIntoView({behavior:"smooth"});
 });
 
+function renderDashboard() {
+
+  const result =
+    generateAnalysis();
+
+  const dashboard =
+    document.getElementById(
+      "dashboardContent"
+    );
+
+  dashboard.innerHTML = `
+    <div class="stats-card">
+      <h2>Skin Score</h2>
+      <span class="score">${result.score}%</span>
+    </div>
+
+    <div class="routine-grid">
+      <div class="routine-card">
+        <h3>Morning Routine</h3>
+        <ul>
+          ${result.morningRoutine.map(item => `<li>✓ ${item}</li>`).join("")}
+        </ul>
+      </div>
+
+      <div class="routine-card">
+        <h3>Night Routine</h3>
+        <ul>
+        ${result.nightRoutine.map(item => `<li>✓ ${item}</li>`).join("")}
+        </ul>
+      </div>
+    </div>
+  `;
+}
 
