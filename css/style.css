@@ -252,3 +252,27 @@ nav a{
 .routine-card li{
   padding:10px 0;
 }
+
+.products-header{
+  display:flex;
+  gap:16px;
+  margin-bottom:24px;
+}
+
+#productsGrid{
+  display:grid;
+  grid-template-columns:
+  repeat(auto-fit,minmax(260px,1fr));
+  gap:20px;
+}
+
+.product-card{
+  background:var(--card);
+  padding:24px;
+  border-radius:20px;
+  transition:.3s;
+}
+
+.product-card:hover{
+  transform:translateY(-5px);
+}

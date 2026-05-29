@@ -1,6 +1,5 @@
 const startBtn = document.getElementById("startQuizBtn");
 
-
 const quizSteps = [
   {
     question: "What's your skin type?",
@@ -31,6 +30,50 @@ const quizContainer = document.getElementById("quizContainer");
 
 const progressBar = document.querySelector(".progress-bar");
 
+
+const products = [
+  {
+    id: 1,
+    name: "Hydra Lily Serum",
+    type: "serum",
+    skin: "dry",
+    description: "Deep hydration serum"
+  },
+  {
+    id: 2,
+    name: "Pure Foam Cleanser",
+    type: "cleanser",
+    skin: "oily",
+    description: "Gentle daily cleanser"
+  },
+  {
+    id: 3,
+    name: "Barrier Repair Cream",
+    type: "moisturizer",
+    skin: "sensitive",
+    description: "Strengthens skin barrier"
+  },
+  {
+    id: 4,
+    name: "Glow Vitamin C",
+    type: "serum",
+    skin: "all",
+    description: "Brightening treatment"
+  }
+];
+
+function renderProducts(items) {
+
+  productsGrid.innerHTML = items.map(product => `
+      <div class="product-card">
+        <h3>${product.name}</h3>
+        <p>${product.description}</p>
+        <span>${product.type}</span>
+      </div>
+    `).join("");
+}
+
+const productsGrid = document.getElementById("productsGrid");
 
 
 function renderQuizStep() {
@@ -192,3 +235,4 @@ function renderDashboard() {
   `;
 }
 
+renderProducts(products);
