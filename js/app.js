@@ -4,7 +4,10 @@ const searchInput = document.getElementById("searchInput");
 
 const filterSelect = document.getElementById("filterSelect");
 
+let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
+
 let currentSearch = "";
+
 let currentFilter = "all";
 
 const quizSteps = [
@@ -80,13 +83,42 @@ function renderProducts(items) {
   return;
 }
 
-  productsGrid.innerHTML = items.map(product => `
+  productsGrid.innerHTML = items.map(product => {
+    const isFavorite = favorites.includes(product.id);
+    return `
       <div class="product-card">
+        <button
+          class="favorite-btn"
+          data-id="${product.id}"
+        >
+          ${isFavorite ? "❤️" : "🤍"}
+        </button>
         <h3>${product.name}</h3>
         <p>${product.description}</p>
         <span>${product.type}</span>
       </div>
-    `).join("");
+    `;
+  }).join("");
+
+  attachFavoriteEvents();
+}
+
+function attachFavoriteEvents(){
+  const favoriteBtns = document.querySelectorAll(".favorite-btn");
+  favoriteBtns.forEach(btn => {btn.addEventListener("click", toggleFavorite);});
+}
+
+function toggleFavorite(e){
+  const id = Number(e.target.dataset.id);
+
+  if(favorites.includes(id)){
+    favorites = favorites.filter(favId => favId !== id);
+  }
+  else favorites.push(id);
+
+  localStorage.setItem("favorites", JSON.stringify(favorites));
+
+  updateProducts();
 }
 
 const productsGrid = document.getElementById("productsGrid");
@@ -266,11 +298,11 @@ function handleFilter(e){
 function updateProducts() {
   let filtered = [...products];
 
-  if(currentFilter !== "all"){
-    filtered = filtered.filter(product =>
-      product.skin === currentFilter ||
-      product.skin === "all"
-    );
+  if(currentFilter === "favorite"){
+    filtered = filtered.filter(product => favorites.includes(product.id));
+  }
+  else if(currentFilter !== "all"){
+        filtered = filtered.filter(product => product.skin === currentFilter || product.skin === "all");
   }
 
   if(currentSearch){

@@ -359,3 +359,11 @@ nav a{
   padding:40px;
   opacity:.7;
 }
+
+.favorite-btn{
+  border:none;
+  background:none;
+  cursor:pointer;
+  font-size:1.4rem;
+  margin-bottom:16px;
+}
