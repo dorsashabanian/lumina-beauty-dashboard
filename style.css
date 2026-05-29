@@ -1,0 +1,27 @@
+:root{
+  --bg:#0f0b0d;
+  --card:rgba(255,255,255,.06);
+  --primary:#7b1025;
+  --secondary:#c49a6c;
+  --text:#f8f5f2;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:Inter,sans-serif;
+}
+
+.hidden{
+  display:none;
+}
+
+section{
+  padding:80px 10%;
+}
