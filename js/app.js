@@ -2,6 +2,11 @@ const startBtn = document.getElementById("startQuizBtn");
 
 const searchInput = document.getElementById("searchInput");
 
+const filterSelect = document.getElementById("filterSelect");
+
+let currentSearch = "";
+let currentFilter = "all";
+
 const quizSteps = [
   {
     question: "What's your skin type?",
@@ -65,6 +70,15 @@ const products = [
 ];
 
 function renderProducts(items) {
+
+  if(items.length === 0){
+  productsGrid.innerHTML = `
+    <p class="empty-state">
+      No products found.
+    </p>
+  `;
+  return;
+}
 
   productsGrid.innerHTML = items.map(product => `
       <div class="product-card">
@@ -237,20 +251,38 @@ function renderDashboard() {
   `;
 }
 
-renderProducts(products);
+updateProducts();
 
-function handleSearch(e) {
-  const value = e.target.value.toLowerCase();
+function handleSearch(e){
+  currentSearch = e.target.value.toLowerCase();
+  updateProducts();
+}
 
-  const filteredProducts =
-    products.filter(product => {
+function handleFilter(e){
+  currentFilter = e.target.value;
+  updateProducts();
+}
 
-      return (product.name.toLowerCase().includes(value) ||
-        product.type.toLowerCase().includes(value) ||
-        product.description.toLowerCase().includes(value));
-    });
+function updateProducts() {
+  let filtered = [...products];
 
-  renderProducts(filteredProducts);
+  if(currentFilter !== "all"){
+    filtered = filtered.filter(product =>
+      product.skin === currentFilter ||
+      product.skin === "all"
+    );
+  }
+
+  if(currentSearch){
+    filtered = filtered.filter(product =>
+      product.name.toLowerCase().includes(currentSearch) ||
+      product.type.toLowerCase().includes(currentSearch) || 
+      product.description.toLowerCase().includes(currentSearch)
+    );
+  }
+  renderProducts(filtered);
 }
 
 searchInput.addEventListener("input", handleSearch);
+
+filterSelect.addEventListener("change", handleFilter);

@@ -353,3 +353,9 @@ nav a{
   background:#1a1a1a;
   color:white;
 }
+
+.empty-state{
+  text-align:center;
+  padding:40px;
+  opacity:.7;
+}
