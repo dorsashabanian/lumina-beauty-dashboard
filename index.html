@@ -14,15 +14,15 @@
   <header class="navbar">
     <div class="logo">Lumina</div>
     <nav>
-      <a href="#">Home</a>
-      <a href="#">Dashboard</a>
-      <a href="#">Products</a>
+      <a href="#hero">Home</a>
+      <a href="#dashboard">Dashboard</a>
+      <a href="#products">Products</a>
     </nav>
     <button id="themeToggle">🌙</button>
 </header>
 
   <!-- Hero -->
-  <section class="hero">  
+  <section id="hero" class="hero">  
     <div class="hero-content">
       <span class="hero-badge">Personalized Beauty Intelligence</span>
       <h1>Discover Your Perfect Beauty Routine</h1>
@@ -41,15 +41,17 @@
   </section>
 
   <!-- Dashboard -->
-  <section class="dashboard hidden">
+  <section id="dashboard" class="dashboard hidden">
     <div id="dashboardContent"></div>
   </section>
 
   <!-- Product Explorer -->
-  <section class="products">
-
+  <section id="products" class="products">
+    <div class="products-title">
+      <h2>Product Explorer</h2>
+      <p>Discover skincare products tailored to every skin type.</p>
+    </div>
     <div class="products-header">
-
       <input
         type="text"
         id="searchInput"
@@ -63,12 +65,10 @@
         <option value="sensitive">Sensitive Skin</option>
         <option value="favorite">Favorites</option>
       </select>
-
     </div>
-
     <div id="productsGrid"></div>
-
   </section>
+
 
   <!-- Modal -->
   <div id="modal" class="modal hidden">

@@ -330,6 +330,16 @@ nav a{
   align-items:center;
 }
 
+.products-title{
+  text-align:center;
+  margin-bottom:40px;
+}
+
+.products-title h2{
+  margin-bottom:12px;
+  color:var(--secondary);
+}
+
 #searchInput{
   flex:1;
   padding:16px 20px;
@@ -519,4 +529,8 @@ nav a{
     opacity:1;
     transform:translateY(0);
   }
+}
+
+html{
+  scroll-behavior:smooth;
 }
