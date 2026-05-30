@@ -1,24 +1,21 @@
 const startBtn = document.getElementById("startQuizBtn");
-
 const searchInput = document.getElementById("searchInput");
-
 const filterSelect = document.getElementById("filterSelect");
-
 const modal = document.getElementById("modal");
-
 const modalBody = document.getElementById("modalBody");
-
 const closeModal = document.getElementById("closeModal");
-
 const toast = document.getElementById("toast");
-
 const themeToggle = document.getElementById("themeToggle");
+const quizContainer = document.getElementById("quizContainer");
+const progressBar = document.querySelector(".progress-bar");
+const productsGrid = document.getElementById("productsGrid");
 
 let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
 let currentSearch = "";
-
 let currentFilter = "all";
+let selectedValue = "";
+
 
 const quizSteps = [
   {
@@ -45,11 +42,6 @@ const quizSteps = [
 
 let currentStep = 0;
 const answers = {skinType: "", concern: "", budget: "", goal: ""};
-
-const quizContainer = document.getElementById("quizContainer");
-
-const progressBar = document.querySelector(".progress-bar");
-
 
 const products = [
   {
@@ -166,7 +158,6 @@ const products = [
 ];
 
 function renderProducts(items) {
-
   if(items.length === 0){
   productsGrid.innerHTML = `
     <p class="empty-state">
@@ -229,20 +220,7 @@ function openProductModal(e){
     <h3>How To Use</h3>
     <p>${product.usage}</p>
   `;
-
   modal.classList.remove("hidden");
-}
-
-closeModal.addEventListener("click",() => { modal.classList.add("hidden");});
-
-modal.addEventListener("click",(e) => {
-    if(e.target === modal){ modal.classList.add("hidden");}
-  }
-);
-
-function attachFavoriteEvents(){
-  const favoriteBtns = document.querySelectorAll(".favorite-btn");
-  favoriteBtns.forEach(btn => {btn.addEventListener("click", toggleFavorite);});
 }
 
 function toggleFavorite(e){
@@ -262,8 +240,6 @@ function toggleFavorite(e){
   updateProducts();
   renderFavorites();
 }
-const productsGrid = document.getElementById("productsGrid");
-
 
 function renderQuizStep() {
   const step = quizSteps[currentStep];
@@ -306,7 +282,6 @@ function updateProgress() {
   const progress = ((currentStep + 1) / quizSteps.length) * 100;
   progressBar.style.width = `${progress}%`;
 }
-let selectedValue = "";
 
 function attachEvents() {
   const optionBtns = document.querySelectorAll(".option-btn");
@@ -387,11 +362,11 @@ function finishQuiz(){
   renderDashboard();
 }
 
-startBtn.addEventListener("click", () => {
-  document.querySelector(".quiz").classList.remove("hidden");
+
+/* startBtn.addEventListener("click", () => { document.querySelector(".quiz").classList.remove("hidden");
   renderQuizStep();
   document.querySelector(".quiz").scrollIntoView({behavior:"smooth"});
-});
+}); */
 
 function renderDashboard() {
 
@@ -465,9 +440,6 @@ function renderFavorites(){
         </div>`).join("");
 }
 
-updateProducts();
-renderFavorites();
-
 function handleSearch(e){
   currentSearch = e.target.value.toLowerCase();
   updateProducts();
@@ -512,16 +484,6 @@ function toggleTheme(){
   showToast(`Theme Updated`);
 }
 
-themeToggle.addEventListener("click", toggleTheme);
-
-const savedTheme = localStorage.getItem("theme");
-if(savedTheme === "light"){
-  document.body.classList.add("light-theme");
-  themeToggle.textContent = "☀️";
-}
-
-searchInput.addEventListener("input", handleSearch);
-
 filterSelect.addEventListener("change", handleFilter);
 
 function animateScore(target){
@@ -534,3 +496,38 @@ function animateScore(target){
       }
     },15);
 }
+
+
+closeModal.addEventListener("click",() => { modal.classList.add("hidden");});
+
+modal.addEventListener("click",(e) => {
+    if(e.target === modal){ modal.classList.add("hidden");}
+  }
+);
+
+function attachFavoriteEvents(){
+  const favoriteBtns = document.querySelectorAll(".favorite-btn");
+  favoriteBtns.forEach(btn => {btn.addEventListener("click", toggleFavorite);});
+}
+
+themeToggle.addEventListener("click", toggleTheme);
+
+const savedTheme = localStorage.getItem("theme");
+if(savedTheme === "light"){
+  document.body.classList.add("light-theme");
+  themeToggle.textContent = "☀️";
+}
+searchInput.addEventListener("input", handleSearch);
+
+updateProducts();
+renderFavorites();
+
+document.addEventListener("DOMContentLoaded", () => {
+  const startBtn = document.getElementById("startQuizBtn");
+  startBtn.addEventListener("click", () => {
+    document.querySelector(".quiz").classList.remove("hidden");
+    renderQuizStep();
+    document.querySelector(".quiz").scrollIntoView({ behavior: "smooth" });
+  });
+
+});
