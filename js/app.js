@@ -445,6 +445,7 @@ function renderDashboard() {
 
     </div>
   `;
+  animateScore(result.score);
 }
 
 updateProducts();
@@ -504,3 +505,14 @@ if(savedTheme === "light"){
 searchInput.addEventListener("input", handleSearch);
 
 filterSelect.addEventListener("change", handleFilter);
+
+function animateScore(target){
+  const scoreElement = document.querySelector(".score");
+  let current = 0;
+  const interval = setInterval(() => {current++;
+      scoreElement.textContent =`${current}%`;
+      if(current >= target){
+        clearInterval(interval);
+      }
+    },15);
+}
