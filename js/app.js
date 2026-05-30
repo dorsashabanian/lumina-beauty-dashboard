@@ -12,6 +12,8 @@ const closeModal = document.getElementById("closeModal");
 
 const toast = document.getElementById("toast");
 
+const themeToggle = document.getElementById("themeToggle");
+
 let favorites = JSON.parse(localStorage.getItem("favorites")) || [];
 
 let currentSearch = "";
@@ -457,6 +459,22 @@ function showToast(message){
   toast.textContent = message;
   toast.classList.add("show");
   setTimeout(() => {toast.classList.remove("show");}, 2500);
+}
+
+function toggleTheme(){
+  document.body.classList.toggle("light-theme");
+  const isLight = document.body.classList.contains("light-theme");
+  localStorage.setItem("theme", isLight ? "light" : "dark");
+  themeToggle.textContent = isLight ? "☀️" : "🌙";
+  showToast(`Theme Updated`);
+}
+
+themeToggle.addEventListener("click", toggleTheme);
+
+const savedTheme = localStorage.getItem("theme");
+if(savedTheme === "light"){
+  document.body.classList.add("light-theme");
+  themeToggle.textContent = "☀️";
 }
 
 searchInput.addEventListener("input", handleSearch);

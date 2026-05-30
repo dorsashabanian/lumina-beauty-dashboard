@@ -4,6 +4,17 @@
   --primary:#7b1025;
   --secondary:#c5c2c2;
   --text:#f8f5f2;
+  --text-muted:#d8d8d8;
+
+}
+
+.light-theme{
+  --bg:#f8f5f2;
+  --card:rgba(67, 12, 12, 0.05);
+  --primary:#7b1025;
+  --secondary:#0f0b0d;
+  --text:#0f0b0d;
+  --text-muted:#555555;
 }
 
 *{
@@ -92,7 +103,7 @@ nav a{
 }
 
 .hero p{
-  color:#d8d8d8;
+  color:var(--text-muted);
   line-height:1.8;
   margin-bottom:32px;
 }
@@ -298,7 +309,7 @@ nav a{
 
 .product-card p{
   line-height:1.6;
-  color:#d3d3d3;
+  color:var(--text-muted);
   margin-bottom:16px;
 }
 
@@ -359,6 +370,7 @@ nav a{
   text-align:center;
   padding:40px;
   opacity:.7;
+  color:var(--text-muted);
 }
 
 .favorite-btn{
@@ -405,6 +417,10 @@ nav a{
   font-size:1.5rem;
 }
 
+#modalBody p {
+  color:var(--text-muted);
+}
+
 #modalBody h2{
   margin-bottom:16px;
 }
@@ -433,4 +449,19 @@ nav a{
 #toast.show{
   opacity:1;
   transform:translateY(0);
+}
+
+#themeToggle{
+  width:42px;
+  height:42px;
+  border:none;
+  border-radius:50%;
+  cursor:pointer;
+  background:var(--card);
+  color:var(--text);
+  transition:.3s;
+}
+
+#themeToggle:hover{
+  transform:rotate(20deg);
 }
