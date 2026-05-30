@@ -260,6 +260,7 @@ function toggleFavorite(e){
   }
   localStorage.setItem("favorites", JSON.stringify(favorites));
   updateProducts();
+  renderFavorites();
 }
 const productsGrid = document.getElementById("productsGrid");
 
@@ -448,7 +449,24 @@ function renderDashboard() {
   animateScore(result.score);
 }
 
+function renderFavorites(){
+  const favoritesGrid = document.getElementById("favoritesGrid");
+  const favoriteProducts = products.filter(product => favorites.includes(product.id));
+
+  if(favoriteProducts.length === 0){
+    favoritesGrid.innerHTML = `<p class="empty-state">No favorite products yet.</p>`;
+    return;
+  }
+
+  favoritesGrid.innerHTML = favoriteProducts.map(product => `
+        <div class="product-card">
+          <h3>${product.name}</h3>
+          <p>${product.description}</p>
+        </div>`).join("");
+}
+
 updateProducts();
+renderFavorites();
 
 function handleSearch(e){
   currentSearch = e.target.value.toLowerCase();
