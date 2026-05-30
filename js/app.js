@@ -362,12 +362,6 @@ function finishQuiz(){
   renderDashboard();
 }
 
-
-/* startBtn.addEventListener("click", () => { document.querySelector(".quiz").classList.remove("hidden");
-  renderQuizStep();
-  document.querySelector(".quiz").scrollIntoView({behavior:"smooth"});
-}); */
-
 function renderDashboard() {
 
   const result = generateAnalysis();
