@@ -370,17 +370,20 @@ function generateAnalysis() {
     nightRoutine.push("Retinol Serum");
   }
 
-  return {score, morningRoutine, nightRoutine};
+  const recommendedProducts = products.filter(product => {
+    return ( product.skin === answers.skinType.toLowerCase() ||
+      product.skin === "all");
+  });
+
+  return {score, morningRoutine, nightRoutine, recommendedProducts};
 }
 
 function finishQuiz(){
   console.log(answers);
   document.querySelector(".quiz").classList.add("hidden");
   document.querySelector(".dashboard").classList.remove("hidden");
-
-  renderDashboard();
-
   document.querySelector(".dashboard").scrollIntoView({behavior:"smooth"});
+  renderDashboard();
 }
 
 startBtn.addEventListener("click", () => {
@@ -391,8 +394,7 @@ startBtn.addEventListener("click", () => {
 
 function renderDashboard() {
 
-  const result =
-    generateAnalysis();
+  const result = generateAnalysis();
 
   const dashboard =
     document.getElementById(
@@ -416,9 +418,31 @@ function renderDashboard() {
       <div class="routine-card">
         <h3>Night Routine</h3>
         <ul>
-        ${result.nightRoutine.map(item => `<li>✓ ${item}</li>`).join("")}
+          ${result.nightRoutine.map(item => `<li>✓ ${item}</li>`).join("")}
         </ul>
       </div>
+
+    </div>
+
+    <div class="recommendations">
+
+      <h2>
+        Recommended Products
+      </h2>
+
+      <div class="recommended-grid">
+
+        ${result.recommendedProducts
+          .map(product => `
+            <div class="recommended-card">
+              <h4>${product.name}</h4>
+              <p>${product.description}</p>
+            </div>
+          `)
+          .join("")}
+
+      </div>
+
     </div>
   `;
 }
